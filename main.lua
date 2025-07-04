@@ -1,4 +1,8 @@
 local RHH = {}
+--Ideas to make it for performant if needed.
+-- There is a method you can call to get all spells used in the one button
+-- At start get those and then make a cache with the key bindings to the spell
+-- Update this when key bindings or action bar updates
 
 function RHH:init()
    local EventFrame = CreateFrame("frame", "EventFrame")
@@ -72,13 +76,18 @@ function RHH:CreateMainButton()
     btn:SetSize(40, 40)
     btn:SetText("?")
     --btn:Disable()
+	
+	local font, size, flags = GameFontHighlightSmallLeft:GetFont()
+	btn:GetFontString():SetFont(font, 25, flags);
+	btn:GetFontString():SetShadowColor(0, 0, 0)
+	btn:GetFontString():SetTextColor(255, 255, 255, 1)
 
     return btn
 end
 
 --only call once
 function RHH:maintainButton(btn)
-      C_Timer.NewTicker(0.333, function ()
+      C_Timer.NewTicker(0.5, function ()
             local actionButton = C_ActionBar.FindAssistedCombatActionButtons()[1]
             --print("actionButton", actionButton)
             local spellIDToFind = C_AssistedCombat.GetNextCastSpell()
@@ -87,9 +96,11 @@ function RHH:maintainButton(btn)
             --print("keybind", keybind)
             btn:SetText(keybind)
 
+            btn:SetNormalTexture(C_Spell.GetSpellTexture(spellIDToFind))
+            btn:GetNormalTexture():SetDesaturated(true)
+
             -- Play a sound
             --PlaySoundFile("Interface/Addons/MyAddon/sounds/spellchanged.ogg"); -- Replace with your sound file path
-               --self:UnregisterEvent(event)
       end)
 end
 

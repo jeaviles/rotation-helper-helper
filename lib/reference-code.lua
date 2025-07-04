@@ -15,3 +15,10 @@ btn:RegisterForClicks("AnyDown", "AnyUp")
 
 --gets a stream of events to the ui
 --/etrace
+
+--/console scriptErrors 1
+
+--https://www.wowhead.com/spell=1229376/single-button-assistant
+
+--put this inside of an event to unregister
+--self:UnregisterEvent(event)
